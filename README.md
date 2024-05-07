@@ -4,7 +4,7 @@ Name : Ilham Abdillah Alhamdi <br>
 NPM : 2206081194 <br>
 Class : Advpro - A <br>
 
-## Reflection Tutorial 1 
+## Reflection Tutorial 1
 
 ### 1.2. Understanding how it works
 
@@ -68,16 +68,35 @@ Adapun terkait bagaimana _async block_ tersebut bekerja, berikut merupakan penje
 
     ![](./assets/images/commit-1.3-remove-drop.png)
 
-
 ## Reflection Tutorial 2
 
 ### 2.1 Original code of broadcast chat.
-- How to run it?
+
+-   How to run it?
+
     Jalankan command `cargo run --bin server` untuk menjalankan server dan command `cargo run --bin client` untuk menjalankan client.
-- What happen when we type some text in the clients
+
+-   What happen when we type some text in the clients
+
     Berikut merupakan _screenshot_ dari terminal yang menjalankan sebuah server dan tiga buah client.
 
     ![](./assets/images/commit-2.1-original-code.png)
 
     Ketika kita menuliskan sebuah baris teks di sebuah client, teks tersebut akan dikirimkan ke server melalui koneksi Websocket. Setelah menerima teks tersebut, server mencetaknya di terminal server, kemudian mem-_broadcast_ ke seluruh client yang sedang terhubung. Semua _client_ menerima teks tersebut dan kemudian dicetak di terminal masing-masing.
-    
+
+### 2.2 Modifying the websocket port
+
+Untuk mengubah port menjadi 8080, kita perlu mengubahnya di kode client  dan server. Pada server, kita dapat mengubahnya pada baris kode berikut.
+
+```rust
+let listener = TcpListener::bind("127.0.0.1:8080").await?;
+```
+
+Sedangkan pada client, kita perlu mengubah baris kode berikut.
+
+```rust
+let (mut ws_stream, _) =
+    ClientBuilder::from_uri(Uri::from_static("ws://127.0.0.1:8080")).connect().await?;
+```
+
+Port 8080 di-set menjadi port server. Di sini, kita hanya perlu mendefinisikan port servernya saja. Untuk membuat koneksi, client perlu tahu _address_ dari server, sedangkan server tidak perlu tahu _addrss_ client karena server hanya bertugas untuk menunggu koneksi. Port dari masing-masing client ditentukan oleh library `tokio_websockets` pada saat pemanggilan `ClientBuilder::new().connect()`.

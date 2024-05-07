@@ -100,3 +100,35 @@ let (mut ws_stream, _) =
 ```
 
 Port 8080 di-set menjadi port server. Di sini, kita hanya perlu mendefinisikan port servernya saja. Untuk membuat koneksi, client perlu tahu _address_ dari server, sedangkan server tidak perlu tahu _addrss_ client karena server hanya bertugas untuk menunggu koneksi. Port dari masing-masing client ditentukan oleh library `tokio_websockets` pada saat pemanggilan `ClientBuilder::new().connect()`.
+
+
+### 2.3 Experiment 2.3: Small changes, add IP and Port
+
+Untuk menambahkan alamat IP dan Port pengirim ke dalam pesan broadcast, kita dapat mengubah fungsi `handle_connection` pada server menjadi berikut.
+
+```rust
+async fn handle_connection(
+   ...
+) -> Result<(), Box<dyn Error + Send + Sync>> {
+   ...
+    loop {
+        tokio::select! {
+            incoming = ws_stream.next() => {
+                match incoming {
+                    Some(Ok(msg)) => {
+                        if let Some(text) = msg.as_text() {
+                            println!("From client {addr:?} {text:?}");
+                            bcast_tx.send(format!("{addr}: {text}"))?;
+                        }
+                    }
+                    ...
+                }
+            }
+        }
+    }
+}
+
+```
+Perubahan dilakukan pada line `bcast_tx.send()` dengan mengubah argumen yang di-passing. Argumen ditambahkan address dari client pengirim pesan. Dengan demikian, setiap pesan broadcast yang dikirim mengandung informasi IP dan Port pengirimnya. Berikut merupakan tangkapan layarnya.
+
+![](./assets/images/commit-2.3-add-ip-port-senders.png)

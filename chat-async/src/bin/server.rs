@@ -11,7 +11,6 @@ async fn handle_connection(
     mut ws_stream: WebSocketStream<TcpStream>,
     bcast_tx: Sender<String>,
 ) -> Result<(), Box<dyn Error + Send + Sync>> {
-
     ws_stream
         .send(Message::text("Welcome to chat! Type a message".to_string()))
         .await?;
@@ -27,7 +26,7 @@ async fn handle_connection(
                     Some(Ok(msg)) => {
                         if let Some(text) = msg.as_text() {
                             println!("From client {addr:?} {text:?}");
-                            bcast_tx.send(text.into())?;
+                            bcast_tx.send(format!("{addr}: {text}"))?;
                         }
                     }
                     Some(Err(err)) => return Err(err.into()),

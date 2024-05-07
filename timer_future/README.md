@@ -26,7 +26,7 @@ Adapun terkait bagaimana _async block_ tersebut bekerja, berikut merupakan penje
 
 ### 1.3 Multiple Spawn and Removing Drop
 
-1.  Multiple Spawn
+1.  Multiple Spawn <br>
     Pemanggilan fungsi `spawn` berguna untuk menambahkan _async task_ baru untuk dijalankan. Setiap kali method `spawn` dipanggil, _async block_ tersebut dikirimkan kepada _executor_ sebagai sebuah task.
 
     Ketika beberapa fungsi `spawn` dijalankan beberapa kali, task-task tersebut akan disimpan dalam _queue_ dan siap dijalankan oleh _executor_. Sesuai dengan konsep _queue_, task yang pertama kali disimpan akan dijalankan pertama kali (First In First Out). Meskipun demikian, untuk mengerjakan task lainnya, task sebelumnya tidak harus selesai terlebih dahulu.
@@ -37,7 +37,7 @@ Adapun terkait bagaimana _async block_ tersebut bekerja, berikut merupakan penje
 
     Pada kasus ini, task 1 dijalankan terlebih dahulu dan mencetak "howdy!". Kemudian, saat menjalankan _keyword_ `await` di task 1, task tersebut mengembalikan status `Pending`. Kemudian, eksekutor mem-pop task 2 dan mencetak "howdy2!" dan seterusnya hingga task 3. Saat task 1 siap dilanjutkan, task tersebut dimasukkan kembali ke dalam _queue_ dan _exector_ melakukan pop kembali. Task 1 tersebut dilanjutkan dari state terakhir dimana ia dihentikan dan kemudian mencetak "done!". Begitu pula dengan task 2 dan task 3.
 
-2.  Removing Drop
+2.  Removing Drop <br>
     _Spawner_ dan _executor_ memiliki perannya masing-masing. _Spawner_ berfungsi untuk membuat dan mengirimkan _async task_ ke _executor_. Sedangkan _executor_ berfungsi untuk menjalankan task yang dikirimkan _spawner_. Keduanya berkomunikasi melalui sebuah channel. _Spawnwer_ berperan sebagai _sender_/_transmitter_, sedangkan _executor_ sebagai _receiver_.
 
     Cara kerja _executor_ dapat kita lihat pada method `Executor::run`, yaitu dengan menjalankan _while loop_ selama masih ada task dalam _channel queue_ tersebut.

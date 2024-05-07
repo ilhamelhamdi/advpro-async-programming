@@ -4,7 +4,7 @@ Name : Ilham Abdillah Alhamdi <br>
 NPM : 2206081194 <br>
 Class : Advpro - A <br>
 
-## Reflection
+## Reflection Tutorial 1 
 
 ### 1.2. Understanding how it works
 
@@ -67,3 +67,17 @@ Adapun terkait bagaimana _async block_ tersebut bekerja, berikut merupakan penje
     Namun, apabila fungsi `drop` dihapus, method _recv_ akan terus menunggu task baru dari _transmitter_ meskipun hal itu tidak akan terjadi. Dengan demikian, _executor_ akan terus dijalankan dan program pun tidak berhenti.
 
     ![](./assets/images/commit-1.3-remove-drop.png)
+
+
+## Reflection Tutorial 2
+
+### 2.1 Original code of broadcast chat.
+- How to run it?
+    Jalankan command `cargo run --bin server` untuk menjalankan server dan command `cargo run --bin client` untuk menjalankan client.
+- What happen when we type some text in the clients
+    Berikut merupakan _screenshot_ dari terminal yang menjalankan sebuah server dan tiga buah client.
+
+    ![](./assets/images/commit-2.1-original-code.png)
+
+    Ketika kita menuliskan sebuah baris teks di sebuah client, teks tersebut akan dikirimkan ke server melalui koneksi Websocket. Setelah menerima teks tersebut, server mencetaknya di terminal server, kemudian mem-_broadcast_ ke seluruh client yang sedang terhubung. Semua _client_ menerima teks tersebut dan kemudian dicetak di terminal masing-masing.
+    

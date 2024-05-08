@@ -132,3 +132,12 @@ async fn handle_connection(
 Perubahan dilakukan pada line `bcast_tx.send()` dengan mengubah argumen yang di-passing. Argumen ditambahkan address dari client pengirim pesan. Dengan demikian, setiap pesan broadcast yang dikirim mengandung informasi IP dan Port pengirimnya. Berikut merupakan tangkapan layarnya.
 
 ![](./assets/images/commit-2.3-add-ip-port-senders.png)
+
+
+## Reflection Tutorial 3 - Web Chat Using Yew
+
+### 3.1. Original code
+
+Here's the screen capture of the Web Chat. I make two client, named Ilham and Hamdi. Both can communicate each other.
+
+![](./assets/images/commit-3.1-chat-client-original-code.png)
